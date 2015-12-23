@@ -5,6 +5,7 @@ var
     TEXT = i++,
     LD = i++, // {
     RD = i++, // }
+    CLOSE_RD = i++, // }
     BEFORE_TAG_NAME = i++, //after <
     IN_TAG_NAME = i++,
     IN_SELF_CLOSING_TAG = i++,
@@ -53,6 +54,8 @@ Tokenizer.prototype._parse = function () {
             this._stateBeforeLD(c);
         } else if (this._state === RD) {
             this._stateBeforeRD(c);
+        }else if (this._state === CLOSE_RD) {
+            this._stateAfterCloseingRD(c);
         } else if (this._state === BEFORE_TAG_NAME) {
             this._stateBeforeTagName(c);
         } else if (this._state === IN_TAG_NAME) {
@@ -96,7 +99,7 @@ Tokenizer.prototype._cleanup = function () {
     } else if (this._running) {
         if (this._state === TEXT) {
             if (this._sectionStart !== this._index) {
-                this._cbs.ontext(this._buffer.substr(this._sectionStart));
+                this._cbs.ontext(this._buffer.substr(this._sectionStart), this._loc());
             }
             this._buffer = "";
             this._index = 0;
@@ -124,7 +127,7 @@ Tokenizer.prototype._getSection = function () {
 Tokenizer.prototype._stateText = function (c) {
     if (c === ld) {
         if (this._index > this._sectionStart) {
-            this._cbs.ontext(this._getSection());
+            this._cbs.ontext(this._getSection(), this._loc());
         }
         this._state = LD;
         this._sectionStart = this._index + 1;
@@ -151,7 +154,7 @@ Tokenizer.prototype._stateBeforeTagName = function (c) {
     } else if (c === rd || whitespace(c)) {
         this._state = TEXT;
     } else if (c === ld) {
-        this._cbs.ontext(this._getSection());
+        this._cbs.ontext(this._getSection(), this._loc());
         this._sectionStart = this._index;
     } else {
         this._state = IN_TAG_NAME;
@@ -178,7 +181,13 @@ Tokenizer.prototype._stateBeforeCloseingTagName = function (c) {
 };
 
 Tokenizer.prototype._stateInCloseingTagName = function (c) {
-    if (c === rd || whitespace(c)) {
+    if (c === rd) {
+        this._state = CLOSE_RD;
+    }
+};
+
+Tokenizer.prototype._stateAfterCloseingRD = function (c) {
+    if (c === rd) {
         this._emitToken("onclosetag");
         this._state = AFTER_CLOSING_TAG_NAME;
     }
@@ -194,7 +203,7 @@ Tokenizer.prototype._stateAfterCloseingTagName = function (c) {
 Tokenizer.prototype._stateBeforeAttributeName = function (c) {
     if (c === rd) {
         this._state = RD;
-        this._cbs.onopentagend();
+        this._cbs.onopentagend(this._loc());
     } else if (c === "/") {
         this._state = IN_SELF_CLOSING_TAG;
     } else if (!whitespace(c)) {
@@ -278,8 +287,16 @@ Tokenizer.prototype._stateInAttributeValueNoQuotes = function (c) {
 
 Tokenizer.prototype._emitToken = function (name) {
     //console.log('running', name);
-    this._cbs[name](this._getSection());
+    this._cbs[name](this._getSection(), this._loc());
     this._sectionStart = -1;
+};
+
+Tokenizer.prototype._loc = function () {
+
+    return {
+        startIndex: this._sectionStart,
+        endIndex: this._index
+    }
 };
 
 module.exports.parse = function (string, cbs) {

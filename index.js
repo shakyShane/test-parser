@@ -1,14 +1,15 @@
 var htmlparser = require("./tokenizer");
 var fs = require('fs');
-var hb = require('handlebars');
+//var hb = require('handlebars');
 var string = fs.readFileSync('test.html', 'utf8');
 
 //console.log('');
 //console.timeEnd('buf');
 
-console.time('hb');
-hb.compile(string)({});
-console.timeEnd('hb');
+//console.time('hb');
+//hb.compile(string)({});
+//console.timeEnd('hb');
+
 
 function parse (string) {
     var stack = [];
@@ -77,7 +78,4 @@ function parse (string) {
     return stack;
 }
 
-console.time('shane');
-var ast = parse(string);
-console.timeEnd('shane');
-//module.exports.parse = parse;
+module.exports.parse = parse;

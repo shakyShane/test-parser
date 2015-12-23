@@ -1,352 +1,113 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Daring Fireball: Markdown</title>
-	<meta name="viewport" content="width=600, initial-scale=0.5, minimum-scale=0.45" />
-	<link rel="apple-touch-icon-precomposed" href="/graphics/apple-touch-icon.png" />
-	<link rel="shortcut icon" href="/graphics/favicon.ico?v=005" />
-	<link rel="mask-icon" href="/graphics/dfstar.svg" color="#4a525a">
-	<link rel="stylesheet" type="text/css" media="screen"  href="/css/fireball_screen.css?v1.7" />
-	<link rel="stylesheet" type="text/css" media="screen"  href="/css/ie_sucks.php" />
-	<link rel="stylesheet" type="text/css" media="print"   href="/css/fireball_print.css?v01" />
-	<link rel="alternate" type="application/atom+xml" href="/feeds/main" />
-	<script src="/js/js-global/FancyZoom.js" type="text/javascript"></script>
-	<script src="/js/js-global/FancyZoomHTML.js" type="text/javascript"></script>
-	<link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
 <body>
-<div id="Box">
-
-<div id="Banner">
-<a href="/" title="Daring Fireball: Home"><img src="/graphics/logos/" alt="Daring Fireball" height="56" /></a>
-</div>
-
-<div id="Sidebar">
-<p>By <strong>John&nbsp;Gruber</strong></p>
-{{#each this.name}}
-	{{this.oh}}
-{{/each}}
-
-{{inc src="kittie.hbs"}}
-<ul><!--&#9733;-->
-<li><a href="/archive/" title="Previous articles.">Archive</a></li><li><script type="text/javascript">
-// <![CDATA[
-function ReadCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0; i < ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1, c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-	}
-	return null;
-}
-var display_linked_list = ReadCookie('displayLinkedList');
-var li_linked = '<a href="/linked/" title="The Linked List.">Linked List<\/a>';
-if (display_linked_list == "hide") {
-	// Linked List is off on home page, so show it in menu:
-	document.write(li_linked + "<\/li>\n<li>");
-}
-else {
-	// Default to not putting separate LL item in sidebar:
-}
-// ]]>
-</script></li>
-<li><a href="/thetalkshow/" title="The world’s most popular podcast.">The Talk Show</a></li>
-<li><a href="http://vesperapp.co/" title="A simple, elegant iOS app for collecting notes, ideas, thoughts, and images.">Vesper</a></li>
-<li><a href="/projects/" title="Software projects, including SmartyPants and Markdown.">Projects</a></li>
-<li><a href="/contact/" title="How to send email regarding Daring Fireball.">Contact</a></li>
-<li><a href="/colophon/" title="About this site and the tools used to produce it.">Colophon</a></li>
-<li><a href="/feeds/">RSS Feed</a></li>
-<li><a href="https://twitter.com/daringfireball">Twitter</a></li>
-<li><a href="/feeds/sponsors/">Sponsorship</a></li>
-</ul>
-
-</div> <!-- Sidebar -->
-
-<div id="Main">
-
-<div class="article">
-<h1>Markdown</h1>
-
-<ul id="ProjectSubmenu">
-    <li><a class="selected" title="Markdown Project Page">Main</a></li>
-    <li><a href="/projects/markdown/basics" title="Markdown Basics">Basics</a></li>
-    <li><a href="/projects/markdown/syntax" title="Markdown Syntax Documentation">Syntax</a></li>
-    <li><a href="/projects/markdown/license" title="Pricing and License Information">License</a></li>
-    <li><a href="/projects/markdown/dingus" title="Online Markdown Web Form">Dingus</a></li>
-</ul>
-
-<h2>Download</h2>
-
-<p><a href="http://daringfireball.net/projects/downloads/Markdown_1.0.1.zip">Markdown 1.0.1</a> (18 KB) &#8212; 17 Dec 2004</p>
-
-<h2>Introduction</h2>
-
-<p>Markdown is a text-to-HTML conversion tool for web writers. Markdown
-allows you to write using an easy-to-read, easy-to-write plain text
-format, then convert it to structurally valid XHTML (or HTML).</p>
-
-<p>Thus, &#8220;Markdown&#8221; is two things: (1) a plain text formatting syntax;
-and (2) a software tool, written in Perl, that converts the plain text
-formatting to HTML. See the <a href="/projects/markdown/syntax">Syntax</a> page for details pertaining to
-Markdown&#8217;s formatting syntax. You can try it out, right now, using the
-online <a href="/projects/markdown/dingus">Dingus</a>.</p>
-
-<p>The overriding design goal for Markdown&#8217;s formatting syntax is to make
-it as readable as possible. The idea is that a Markdown-formatted
-document should be publishable as-is, as plain text, without looking
-like it&#8217;s been marked up with tags or formatting instructions. While
-Markdown&#8217;s syntax has been influenced by several existing text-to-HTML
-filters, the single biggest source of inspiration for Markdown&#8217;s
-syntax is the format of plain text email.</p>
-
-<p>The best way to get a feel for Markdown&#8217;s formatting syntax is simply
-to look at a Markdown-formatted document. For example, you can view
-the Markdown source for the article text on this page here:
-<a href="http://daringfireball.net/projects/markdown/index.text">http://daringfireball.net/projects/markdown/index.text</a></p>
-
-<p>(You can use this &#8216;.text&#8217; suffix trick to view the Markdown source for
-the content of each of the pages in this section, e.g. the
-<a href="/projects/markdown/syntax.text">Syntax</a> and <a href="/projects/markdown/license.text">License</a> pages.)</p>
-
-<p>Markdown is free software, available under a BSD-style open source
-license. See the <a href="/projects/markdown/license">License</a> page for more information.</p>
-
-<h2>Discussion List <a id="discussion-list" /></h2>
-
-<p>I&#8217;ve set up a public <a href="http://six.pairlist.net/mailman/listinfo/markdown-discuss">mailing list for discussion about Markdown</a>.
-Any topic related to Markdown &#8212; both its formatting syntax and
-its software &#8212; is fair game for discussion. Anyone who is interested
-is welcome to join.</p>
-
-<p>It&#8217;s my hope that the mailing list will lead to good ideas for future
-improvements to Markdown.</p>
-
-<h2>Installation and Requirements <a id="install" /></h2>
-
-<p>Markdown requires Perl 5.6.0 or later. Welcome to the 21st Century.
-Markdown also requires the standard Perl library module <a href="http://search.cpan.org/dist/Digest-MD5/MD5.pm">Digest::MD5</a>, which is probably already installed on your server.</p>
-
-<h3>Movable Type</h3>
-
-<p>Markdown works with Movable Type version 2.6 or later (including
-Movable Type 3.0).</p>
-
-<ol>
-<li><p>Copy the &#8220;Markdown.pl&#8221; file into your Movable Type &#8220;plugins&#8221;
-directory. The &#8220;plugins&#8221; directory should be in the same directory
-as &#8220;mt.cgi&#8221;; if the &#8220;plugins&#8221; directory doesn&#8217;t already exist, use
-your FTP program to create it. Your installation should look like
-this:</p>
-
-<pre><code>(mt home)/plugins/Markdown.pl
-</code></pre></li>
-<li><p>Once installed, Markdown will appear as an option in Movable Type&#8217;s
-Text Formatting pop-up menu. This is selectable on a per-post basis:</p>
-
-<p><img src="/graphics/markdown/mt_textformat_menu.png" alt="Screenshot of Movable Type 'Text Formatting' Menu" /></p>
-
-<p>Markdown translates your posts to HTML when you publish; the posts
-themselves are stored in your MT database in Markdown format.</p></li>
-<li><p>If you also install SmartyPants 1.5 (or later), Markdown will
-offer a second text formatting option: &#8220;Markdown With
-SmartyPants&#8221;. This option is the same as the regular &#8220;Markdown&#8221;
-formatter, except that it automatically uses SmartyPants to create
-typographically correct curly quotes, em-dashes, and ellipses. See
-the <a href="http://daringfireball.net/projects/smartypants/">SmartyPants web page</a> for more information.</p></li>
-<li><p>To make Markdown (or &#8220;Markdown With SmartyPants&#8221;) your default
-text formatting option for new posts, go to Weblog Config:
-Preferences.</p></li>
-</ol>
-
-<p>Note that by default, Markdown produces XHTML output. To configure
-Markdown to produce HTML 4 output, see &#8220;Configuration&#8221;, below.</p>
-
-<h3>Blosxom</h3>
-
-<p>Markdown works with Blosxom version 2.0 or later.</p>
-
-<ol>
-<li><p>Rename the &#8220;Markdown.pl&#8221; plug-in to &#8220;Markdown&#8221; (case is
-important). Movable Type requires plug-ins to have a &#8220;.pl&#8221;
-extension; Blosxom forbids it.</p></li>
-<li><p>Copy the &#8220;Markdown&#8221; plug-in file to your Blosxom plug-ins folder.
-If you&#8217;re not sure where your Blosxom plug-ins folder is, see the
-Blosxom documentation for information.</p></li>
-<li><p>That&#8217;s it. The entries in your weblog will now automatically be
-processed by Markdown.</p></li>
-<li><p>If you&#8217;d like to apply Markdown formatting only to certain
-posts, rather than all of them, Markdown can optionally be used in
-conjunction with Blosxom&#8217;s <a href="http://www.blosxom.com/plugins/meta/meta.htm">Meta</a> plug-in. First, install the
-Meta plug-in. Next, open the Markdown plug-in file in a text
-editor, and set the configuration variable <code>$g_blosxom_use_meta</code>
-to 1. Then, simply include a &#8220;<code>meta-markup: Markdown</code>&#8221; header line
-at the top of each post you compose using Markdown.</p></li>
-</ol>
-
-<h3>BBEdit</h3>
-
-<p>Markdown works with BBEdit 6.1 or later on Mac OS X. It also works
-with BBEdit 5.1 or later and MacPerl 5.6.1 on Mac OS 8.6 or later. If
-you&#8217;re running Mac OS X 10.2 (Jaguar), you may need to install the
-Perl module <a href="http://search.cpan.org/dist/Digest-MD5/MD5.pm">Digest::MD5</a> from CPAN; Digest::MD5 comes
-pre-installed on Mac OS X 10.3 (Panther).</p>
-
-<ol>
-<li><p>Copy the &#8220;Markdown.pl&#8221; file to appropriate filters folder in your
-&#8220;BBEdit Support&#8221; folder. On Mac OS X, this should be:</p>
-
-<pre><code>BBEdit Support/Unix Support/Unix Filters/
-</code></pre>
-
-<p>See the BBEdit documentation for more details on the location of
-these folders.</p>
-
-<p>You can rename &#8220;Markdown.pl&#8221; to whatever you wish.</p></li>
-<li><p>That&#8217;s it. To use Markdown, select some text in a BBEdit document,
-then choose Markdown from the Filters sub-menu in the &#8220;#!&#8221; menu, or
-the Filters floating palette</p></li>
-</ol>
-
-<h2>Configuration  <a id="configuration"></a></h2>
-
-<p>By default, Markdown produces XHTML output for tags with empty elements.
-E.g.:</p>
-
-<pre><code>&lt;br /&gt;
-</code></pre>
-
-<p>Markdown can be configured to produce HTML-style tags; e.g.:</p>
-
-<pre><code>&lt;br&gt;
-</code></pre>
-
-<h3>Movable Type</h3>
-
-<p>You need to use a special <code>MTMarkdownOptions</code> container tag in each
-Movable Type template where you want HTML 4-style output:</p>
-
-<pre><code>&lt;MTMarkdownOptions output='html4'&gt;
-    ... put your entry content here ...
-&lt;/MTMarkdownOptions&gt;
-</code></pre>
-
-<p>The easiest way to use MTMarkdownOptions is probably to put the
-opening tag right after your <code>&lt;body&gt;</code> tag, and the closing tag right
-before <code>&lt;/body&gt;</code>.</p>
-
-<p>To suppress Markdown processing in a particular template, i.e. to
-publish the raw Markdown-formatted text without translation into
-(X)HTML, set the <code>output</code> attribute to &#8216;raw&#8217;:</p>
-
-<pre><code>&lt;MTMarkdownOptions output='raw'&gt;
-    ... put your entry content here ...
-&lt;/MTMarkdownOptions&gt;
-</code></pre>
-
-<h3>Command-Line</h3>
-
-<p>Use the <code>--html4tags</code> command-line switch to produce HTML output from a
-Unix-style command line. E.g.:</p>
-
-<pre><code>% perl Markdown.pl --html4tags foo.text
-</code></pre>
-
-<p>Type <code>perldoc Markdown.pl</code>, or read the POD documentation within the
-Markdown.pl source code for more information.</p>
-
-<h2>Acknowledgements <a id="acknowledgements" /></h2>
-
-<p><a href="http://www.aaronsw.com/">Aaron Swartz</a> deserves a tremendous amount of credit for his feedback on the
-design of Markdown&#8217;s formatting syntax. Markdown is <em>much</em> better thanks
-to Aaron&#8217;s ideas, feedback, and testing. Also, Aaron&#8217;s <a href="http://www.aaronsw.com/2002/html2text/">html2text</a>
-is a very handy (and free) utility for turning HTML into
-Markdown-formatted plain text.</p>
-
-<p><a href="http://bumppo.net/">Nathaniel Irons</a>, <a href="http://hivelogic.com/">Dan Benjamin</a>, <a href="http://waferbaby.com/">Daniel Bogan</a>, and <a href="http://pressedpants.com/">Jason Perkins</a>
-also deserve thanks for their feedback.</p>
-
-<p><a href="http://www.michelf.com/projects/php-markdown/">Michel Fortin</a> has ported Markdown to PHP; it&#8217;s a splendid port, and highly recommended for anyone looking for a PHP implementation of Markdown.</p>
-{{shane}}
-</div> <!-- article -->
-
-<div id="Footer">
-<form id="SiteSearch" action="https://daringfireball.net/search" method="get" style="margin-bottom: 2.5em;">
-<div>
-<input name="q" type="text" value="" style="margin-right: 8px; width: 66%;" />
-<input type="submit" value="Search" />
-</div>
-</form>
-
-{{#block}}
-	{{#block shane="kittie"}}
-	{{#block}}
-	{{#block shane="kittie"}}
-	{{{{Andhere}}}}
-	{{{{/Andhere}}}}
-	{{/block}}
-	{{/block}}
-	{{/block}}
-{{/block}}
-
-<p class="smallprint">
-<a href="/preferences/" title="Customize the font size and presentation options for this web site.">Display Preferences</a>
-<br /><br />
-Copyright &copy; 2002–2015 The Daring Fireball Company LLC.
-</p>
-</div>
-
-<div id="SidebarTheDeck">
-<script type="text/javascript">
-// <![CDATA[
-	(function(id) {
-		document.write('<script type="text/javascript" src="' +
-			'//connect.decknetwork.net/deck' + id + '_js.php?' +
-			(new Date().getTime()) + '"></' + 'script>');
-	})("DF");
-	var deckDiv = document.getElementById("SidebarTheDeck");
-	var sidebarDiv = document.getElementById("Sidebar");
-	sidebarDiv.appendChild(deckDiv);
-// ]]>
-</script>
-
-<p id="ViaTheDeck"><a href="http://decknetwork.net/">
-<img src="//daringfireball.net/graphics/madison/via_the_deck.png"    alt="Ads via The Deck" class="the_deck_promo" width="70" />
-<span>Ads via The Deck</span>
-</a></p>
-
-</div>
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-593949-1']);
-  _gaq.push (['_gat._anonymizeIp']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
-<!-- Asynchronously load Mint -->
-<script type="text/javascript">
-(function () {
-	var ma = document.createElement('script');
-	ma.type = 'text/javascript';
-	ma.src = '/mint/?js';
-	ma.async = true;
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(ma, s);
-})();
-</script>
-</div> <!-- Main -->
-	{{shane}}
-</div> <!-- box -->
+	{{#each this.items}}
+		{{#each this.items}}
+			{{#each this.items}}
+				<ul>
+					<li>{{helper}}</li>
+					<li>{{helper2}}</li>
+					<li>{{helper3}}</li>
+					<li>{{helper4}}</li>
+					<li>{{helper5}}</li>
+				</ul>
+				{{#each this.items}}
+					{{#each this.items}}
+					<ul>
+						<li>{{helper}}</li>
+						<li>{{helper2}}</li>
+						<li>{{helper3}}</li>
+						<li>{{helper4}}</li>
+						<li>{{helper5}}</li>
+					</ul>
+					{{/each}}
+				{{/each}}
+			{{/each}}
+		{{/each}}
+	{{/each}}
+	<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h1>
+	<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h2>
+	<h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h3>
+	<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h4>
+	<h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h5>
+	<h6>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae deserunt, dolore eius esse excepturi incidunt iure molestiae molestias nulla numquam praesentium quam quis rem reprehenderit soluta tempora unde veniam.</h6>
+	<p>
+		<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis delectus eum in minima, praesentium quisquam quod tenetur ullam vel. Ab cum deserunt harum libero optio pariatur ratione sit vel velit!</span>
+		<span>Aliquam dolorum est eveniet ipsum iure labore, odio reiciendis sunt voluptas? Autem culpa et laboriosam laborum ratione repudiandae saepe totam veniam. Aliquam at dolorum facilis modi nobis placeat quis sint.</span>
+		<span>Asperiores corporis deserunt ea impedit iusto quia quod sed sit tempora tempore. Aliquid aspernatur aut culpa fugiat, harum iusto laboriosam nihil non qui quibusdam, sed temporibus totam, ut veritatis voluptatem.</span>
+		<span>Alias amet consectetur deserunt dolore, eligendi eos et expedita hic id illo impedit incidunt nulla odit, officia perspiciatis quaerat quas qui repellat rerum saepe sequi tempore tenetur ullam vero voluptatum.</span>
+		<span>Ab accusamus beatae corporis cum, cupiditate deleniti dignissimos ea enim ex exercitationem fugit illo iure laboriosam libero maxime minima nemo numquam perferendis possimus quia rem similique sunt veniam veritatis voluptates?</span>
+		<span>Aut delectus distinctio, dolorem eveniet hic quasi quibusdam tempore. Atque aut beatae deserunt hic ipsam molestiae perspiciatis quas repudiandae ut? Autem cumque dignissimos earum eum ex, labore qui sequi voluptatum!</span>
+		<span>Commodi earum illo inventore, magni quod reprehenderit repudiandae sit ullam vero vitae? Accusamus aperiam esse explicabo incidunt libero maiores molestiae mollitia natus quae quis recusandae repellat, soluta unde vero voluptate?</span>
+		<span>Corporis deserunt fugiat labore nihil obcaecati quas rem repudiandae sed suscipit, temporibus unde veritatis. At commodi dicta dignissimos error eum, ex molestiae odit recusandae reiciendis vel. Distinctio fugiat neque vero?</span>
+		<span>Dicta doloremque, earum error illo iure, minima nam neque omnis, quibusdam recusandae similique soluta temporibus voluptates! Consequuntur ea, eligendi fugit, harum inventore ipsa natus odit quasi, qui suscipit tempora vitae!</span>
+		<span>Accusantium beatae consequuntur cumque harum minus odio pariatur saepe tempora tenetur. Aliquam aperiam magnam numquam porro totam. Ad aperiam eligendi est hic ipsa odit perferendis recusandae, reprehenderit rerum sint? Quod!</span>
+		<span>Animi, distinctio, error eum expedita fuga incidunt laboriosam modi praesentium, quod repudiandae sunt unde velit voluptatem. Blanditiis eius ipsa labore laborum voluptatibus! Adipisci ex, harum numquam porro suscipit ullam voluptatibus.</span>
+		<span>Eius eum, impedit libero modi nesciunt quam quos reprehenderit tempora! Animi architecto, atque debitis, error fugiat fugit impedit ipsum, iusto laudantium molestiae officiis quibusdam quidem quod ratione ut velit vero.</span>
+		<span>Aliquid animi beatae dolor eveniet incidunt mollitia nulla vel voluptatibus! Animi, at deserunt dolorum eius fugiat itaque, laudantium magnam modi nemo neque quae quaerat quod rem sequi sint voluptates voluptatibus.</span>
+		<span>Ad aperiam asperiores dolore dolorum ducimus eligendi exercitationem facilis iste iure possimus qui recusandae rem rerum, unde vitae. Culpa dolor earum, fuga fugit minima quam quisquam sint totam ullam unde.</span>
+		<span>Deserunt distinctio dolorem, et eveniet excepturi necessitatibus numquam obcaecati quas recusandae rem. Accusantium aperiam, corporis eveniet exercitationem fugit minus nemo nesciunt nobis officiis qui quidem sequi tenetur! Laborum odit, sint!</span>
+		<span>Beatae commodi consequatur dolor dolorum eius est fuga iure labore minima modi molestiae necessitatibus neque, nobis porro quae quaerat quas quibusdam quo reprehenderit sunt suscipit vitae voluptatibus? Laboriosam, nisi, voluptate.</span>
+		<span>Explicabo omnis, sed! Adipisci asperiores, assumenda atque commodi cumque deleniti ducimus fugiat, fugit ipsa modi neque nihil placeat quod sint veritatis! Accusamus iusto perferendis provident quo similique. Neque quia, quisquam?</span>
+		<span>Non, quis voluptates. Animi, ex incidunt iusto laborum nesciunt provident rerum voluptates. Adipisci ipsum nostrum quas voluptates? Accusantium deserunt distinctio fugit, impedit ipsum necessitatibus odio odit rem rerum, vel voluptatibus!</span>
+		<span>Alias amet eos fugit ipsa modi mollitia omnis praesentium quibusdam rem. At beatae nemo reiciendis suscipit. Ab ducimus itaque, iure, laudantium necessitatibus nihil, nulla obcaecati repudiandae rerum vitae voluptatem voluptatum!</span>
+		<span>Accusamus animi dolore dolorum ex excepturi, illo natus numquam rem suscipit unde? Ab aliquam animi aperiam assumenda delectus hic iure iusto quas? Accusamus at mollitia nam neque placeat ratione voluptate.</span>
+		<span>Animi beatae commodi consequuntur dolor earum esse exercitationem in ipsum iure laudantium magni maiores nam placeat provident quibusdam quisquam recusandae sed, soluta temporibus veritatis! At esse ipsam magni quisquam suscipit!</span>
+		<span>Ad aperiam deleniti doloribus error eum facere fugit in, maiores maxime nesciunt praesentium quae quidem repellat sapiente similique! Cum debitis, dolore ex in inventore libero modi nihil odio quis rem?</span>
+		<span>Adipisci asperiores beatae consequatur distinctio, dolor dolores eaque eos est eum explicabo, facere impedit iure iusto magni nobis perspiciatis possimus quae quis quod recusandae reiciendis sapiente sequi unde veritatis voluptate.</span>
+		<span>Eius et ipsum, nam nesciunt omnis reiciendis soluta. Accusantium aperiam excepturi id illum inventore itaque magnam maxime modi nesciunt, nulla obcaecati optio perspiciatis quas quasi qui recusandae tenetur voluptate voluptatum?</span>
+		<span>Accusamus accusantium blanditiis, corporis debitis ea enim fugit illo incidunt magni maiores minima mollitia nesciunt officia sunt tempore tenetur vero. Adipisci aliquam amet deleniti eaque fugit, illo quasi rerum voluptas.</span>
+		<span>Ab ad atque aut commodi consequatur est, facilis labore minus nam quaerat quo reprehenderit vel voluptas? Cumque inventore, mollitia. Adipisci eos impedit nihil pariatur perspiciatis porro soluta tempore velit voluptatum?</span>
+		<span>Animi esse harum hic nemo qui totam. A accusamus, aperiam aut blanditiis consequatur cum est facere in ipsa ipsum maxime neque nesciunt nihil non optio, similique totam vel. Dolores, maiores.</span>
+		<span>Ab aliquam aperiam, architecto at consequatur consequuntur cupiditate dicta ea eaque error et fuga harum hic inventore iste iusto maiores molestias nobis numquam officia porro quo tempora ullam ut veritatis.</span>
+		<span>Enim incidunt quam ullam. Accusamus at, aut corporis deserunt dicta dolor dolore doloribus dolorum error eum ex harum, iste iusto neque nesciunt praesentium quia quidem ratione reprehenderit sint soluta, veritatis!</span>
+		<span>At atque aut culpa dolor dolorum earum expedita explicabo illum in incidunt magni maxime minima modi nam, nesciunt nisi obcaecati officia omnis possimus quae sequi sint soluta temporibus vitae voluptas?</span>
+		<span>Aperiam aspernatur assumenda at autem consequuntur dicta, dolore dolores enim esse eveniet ipsum nesciunt nisi pariatur, placeat provident quo quod repellat repudiandae sint veniam. Aspernatur eveniet laborum magni necessitatibus sequi?</span>
+		<span>Dolorem dolorum eligendi est laborum maxime nam neque repellendus sequi, temporibus ut. Blanditiis dignissimos et explicabo inventore ipsam, ipsum minus necessitatibus non obcaecati qui, quibusdam sunt. Autem commodi eveniet officia?</span>
+		<span>A amet consectetur corporis dolore, eveniet ex facilis fuga illum inventore iure, laborum magnam officia optio, sapiente similique veniam voluptatem? Accusantium commodi dignissimos ducimus libero pariatur quae quaerat quod reiciendis.</span>
+		<span>Architecto aspernatur doloribus est eveniet excepturi expedita fuga, illo iusto laudantium necessitatibus nesciunt nisi nulla officiis optio perferendis porro quibusdam quis repudiandae soluta tenetur, totam unde vero. Eius, nostrum, tempore.</span>
+		<span>Accusantium beatae deleniti excepturi explicabo facere iste iusto magni numquam quam ratione rem, repellat sapiente soluta velit voluptates! At deserunt maxime mollitia neque nesciunt nisi repellendus ullam velit vero voluptas.</span>
+		<span>Ab consequatur corporis dicta eaque eius excepturi facilis fuga harum mollitia, nulla omnis quibusdam sapiente sequi similique suscipit temporibus unde, ut vel veniam voluptates. Adipisci ducimus ea itaque nobis sed.</span>
+		<span>Aliquam, consectetur consequuntur cum dolorem dolorum ea eum exercitationem, facere hic laudantium minus nam necessitatibus nesciunt nulla omnis quaerat quia quibusdam quod recusandae repellendus repudiandae saepe sed sint soluta veniam.</span>
+		<span>Aliquam dolore earum illum incidunt, odio qui sed soluta voluptatum! Animi blanditiis debitis dignissimos earum id, mollitia non recusandae sunt? Ad eos hic in magni molestias nobis officia quisquam recusandae!</span>
+		<span>Beatae commodi cum cupiditate, eos facere, iste molestiae nesciunt possimus quas quis quisquam recusandae suscipit voluptate. Aspernatur consequuntur, dignissimos dolorum ea fuga laboriosam maiores minus, perferendis, quasi totam ut voluptatem?</span>
+		<span>Ab, ad alias amet culpa deserunt dicta distinctio eum ex illo impedit ipsa itaque, nam non omnis pariatur placeat quaerat quas rerum tempora tenetur veritatis vero, voluptatibus. Facilis laborum, quibusdam!</span>
+		<span>Consequatur distinctio dolore dolorum ducimus eos error eum explicabo facilis id inventore magnam molestias nostrum, quasi quia recusandae repellat similique sint sit sunt velit. Corporis delectus deleniti nemo recusandae rem.</span>
+		<span>Adipisci alias aliquid aperiam consequatur culpa dolor doloribus eum exercitationem fuga illo impedit in incidunt nisi quaerat quis quisquam reiciendis repudiandae rerum similique, sint tempora tenetur totam velit veniam voluptatibus!</span>
+		<span>Aliquid at beatae dicta dolorum eum fuga fugiat hic id illo ipsam ipsum labore, nam possimus quasi quisquam sed ullam! Beatae cumque dicta incidunt ipsam laboriosam laborum officiis! Numquam, voluptate.</span>
+		<span>Accusamus accusantium, alias aperiam dolorum ea, eum ipsa labore maxime nihil porro quam quibusdam rem, repellat. Consequuntur dolores explicabo libero minima minus quidem quis repellendus tempora unde voluptatibus. Asperiores, sint.</span>
+		<span>Alias aperiam beatae consequuntur cupiditate debitis delectus dignissimos dolorum, esse explicabo iure quia sed vel velit? Cumque dignissimos dolor ducimus eveniet ipsam, laboriosam minus molestiae necessitatibus, quae, quibusdam repellendus ullam!</span>
+		<span>Aliquid atque blanditiis, ducimus, enim fugiat harum, illo mollitia nisi nostrum praesentium quae sequi? Ad consectetur, dolores exercitationem explicabo illo, inventore itaque modi neque perferendis quidem quod ratione reiciendis, sed.</span>
+		<span>A assumenda dolore fuga fugiat laboriosam modi mollitia quisquam saepe sunt velit. Aperiam at distinctio eveniet quas suscipit, vel! Accusantium error harum nam nemo nisi nobis non quam recusandae veritatis!</span>
+		<span>Aperiam commodi ducimus eos illo iste, iusto laborum quod saepe totam! Aperiam architecto consequatur, eum mollitia nisi provident repellendus similique ullam! Beatae deleniti dolorem excepturi itaque odio omnis unde, vero!</span>
+		<span>Cupiditate dolorem facilis non voluptate! Cupiditate earum hic in ipsum laboriosam neque officiis repellendus ut. Autem consequuntur ducimus esse fugiat, maiores nam nihil obcaecati omnis quae sit! Amet, blanditiis vitae.</span>
+		<span>Autem cupiditate itaque molestias mollitia nobis odio, qui? Atque, dolor, eligendi expedita fugiat ipsa iusto magni nobis quaerat, qui sequi vero vitae. Architecto, aspernatur autem corporis deleniti fugiat quas totam!</span>
+	</p>
+	<div>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+		<p>{{#each tags}}<span>{{this.name}}{{someHelper}}{{#each this.other}}{{this.name}}{{/each}}</span>{{/each}}</p>
+	</div>
 </body>
 </html>
-<!-- 0.2165 seconds -->

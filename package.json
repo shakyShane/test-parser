@@ -44,6 +44,7 @@
   "devDependencies": {
     "chai": "3.4.1",
     "coveralls": "^2.11.4",
+    "handlebars": "4.0.5",
     "istanbul": "^0.3.18",
     "jscs": "^2.1.0",
     "jsdom": "7.2.1",
