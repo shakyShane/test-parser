@@ -1,37 +1,64 @@
 var htmlparser = require("./tokenizer");
 var fs = require('fs');
-var hb = require('handlebars');
+//var hb = require('handlebars');
 var string = fs.readFileSync('test.html', 'utf8');
 
-console.time('buf');
-htmlparser.parse("{@hl src='post/shane.hbs|md|autoheadings'} Here's another block", {
-//htmlparser.parse(string, {
-    ontext: function (text) {
-    	console.log('text', [text]);
-    },
-    onopentagname: function (name) {
-    	console.log('onopentagname', [name]);
-    },
-    onopentagend: function () {
-        //console.log('onopentagend', arguments);
-    },
-    onclosetag: function () {
-        //console.log('close', arguments);
-    },
-    onselfclosingtag: function () {
+//console.log('');
+//console.timeEnd('buf');
 
-    },
-    onattribname: function (nae) {
-        console.log('attrib', nae);
-    },
-    onattribend: function () {
+//console.time('hb');
+//hb.compile(string)({});
+//console.timeEnd('hb');
 
-    },
-    onattribdata: function () {
-        console.log('attrib d', arguments);
-    }
-});
-console.timeEnd('buf');
-console.time('hb');
-hb.compile(string)({});
-console.timeEnd('hb');
+
+function parse (string) {
+    var stack = [];
+    var current;
+    var nextattr;
+    htmlparser.parse(string, {
+        ontext: function (text) {
+
+            stack.push({type: 'TEXT', value: text});
+            //console.log('TEXT:', [text]);
+        },
+        onopentagname: function (name) {
+            //if (!current) {
+            current = {
+                type: 'OPEN_TAG',
+                value: name,
+                attrs: {}
+            };
+            //}
+            //stack.push({type: 'OPEN_TAG', value: name});
+            //console.log('  OPEN :', [name]);
+            //console.log('');
+        },
+        onopentagend: function (ee) {
+            stack.push(current);
+            current = undefined;
+        },
+        onclosetag: function (name) {
+
+            stack.push({type: "CLOSE_TAG", value: name});
+            //stack.push(current);
+            current = undefined;
+        },
+        onselfclosingtag: function () {
+
+        },
+        onattribname: function (nae) {
+            nextattr = nae;
+            current.attrs[nae] = '';
+        },
+        onattribend: function () {
+
+        },
+        onattribdata: function (value) {
+            if (!current) return;
+            current.attrs[nextattr] = value;
+        }
+    });
+    return stack;
+}
+
+module.exports.parse = parse;

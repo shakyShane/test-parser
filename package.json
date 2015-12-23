@@ -42,11 +42,13 @@
     "readable-stream": "^2.0.2"
   },
   "devDependencies": {
+    "chai": "3.4.1",
     "coveralls": "^2.11.4",
     "istanbul": "^0.3.18",
     "jscs": "^2.1.0",
+    "jsdom": "7.2.1",
     "jshint": "^2.8.0",
-    "mocha": "^2.2.5",
+    "mocha": "2.3.4",
     "mocha-lcov-reporter": "^0.0.2"
   },
   "browser": {
