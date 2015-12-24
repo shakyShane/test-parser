@@ -183,6 +183,7 @@ Tokenizer.prototype._stateBeforeCloseingTagName = function (c) {
 Tokenizer.prototype._stateInCloseingTagName = function (c) {
     if (c === rd) {
         this._state = CLOSE_RD;
+        this._index--;
     }
 };
 

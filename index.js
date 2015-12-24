@@ -1,7 +1,7 @@
 var htmlparser = require("./tokenizer");
-var fs = require('fs');
+//var fs = require('fs');
 //var hb = require('handlebars');
-var string = fs.readFileSync('test.html', 'utf8');
+//var string = fs.readFileSync('test.html', 'utf8');
 
 //console.log('');
 //console.timeEnd('buf');
@@ -12,7 +12,7 @@ var string = fs.readFileSync('test.html', 'utf8');
 
 
 function parse (string) {
-    var stack = [];
+    var stack  = [];
     var current;
     var nextattr;
     htmlparser.parse(string, {
@@ -31,16 +31,30 @@ function parse (string) {
             //console.log('TEXT:', [text]);
         },
         onopentagname: function (name, loc) {
+            var isBlock = name.match(/^[#@-]/);
             //console.log('open tag', [string.substring(loc.startIndex-2, loc.endIndex+2)]);
-            current = {
-                type: 'OPEN_TAG',
-                value: name,
-                attrs: {},
-                loc: {
-                    start: loc.startIndex - 2,
-                    end: loc.endIndex + 2
-                }
-            };
+            if (isBlock) {
+                current = {
+                    type: 'BLOCK',
+                    value: name.slice(1),
+                    attrs: {},
+                    ctx:   [],
+                    loc: {
+                        start: loc.startIndex - 2,
+                        end: loc.endIndex + 2
+                    }
+                };
+            } else {
+                current = {
+                    type: 'TAG',
+                    value: name,
+                    attrs: {},
+                    loc: {
+                        start: loc.startIndex - 2,
+                        end: loc.endIndex + 2
+                    }
+                };
+            }
         },
         onopentagend: function (loc) {
             current.loc.end = loc.endIndex + 2;
@@ -50,7 +64,7 @@ function parse (string) {
         onclosetag: function (name, loc) {
 
             stack.push({
-                type: "CLOSE_TAG",
+                type: "BLOCK_END",
                 value: name,
                 loc: {
                     start: loc.startIndex - 3,
@@ -64,6 +78,9 @@ function parse (string) {
 
         },
         onattribname: function (nae) {
+            if (current.type === 'BLOCK') {
+                current.ctx.push(nae);
+            }
             nextattr = nae;
             current.attrs[nae] = '';
         },
@@ -75,7 +92,10 @@ function parse (string) {
             current.attrs[nextattr] = value;
         }
     });
-    return stack;
+    return {
+        subject: string,
+        body: stack
+    };
 }
 
 module.exports.parse = parse;

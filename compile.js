@@ -1,23 +1,72 @@
-const map = {
-    'TEXT': textVistor,
-    'OPEN_TAG': openTagVisitor
+const op          = require('object-path');
+const objectAssign = require('object-assign');
+const defaults = {
+    debug: false
+};
+const helpers = {
+    'each': function (node, data, c) {
+        var data = c.getData(c._state, data);
+        if (Array.isArray(data)) {
+            return data.reduce((a, x) => a + x, '');
+        }
+
+        if (data === undefined) {
+            if (c.opts.debug) {
+                return `Warning: \`${c._state.join('.')}\` not found.`;
+            }
+            return '';
+        }
+    }
 };
 
-function compile (ast, data) {
+function Compiler (opts) {
+    this._state = [];
+    this.opts = objectAssign({}, defaults, opts || {});
+}
+
+Compiler.prototype.map = {
+    'TEXT': 'textVistor',
+    'TAG': 'openTagVisitor',
+    'BLOCK': 'blockVisitor',
+    'BLOCK_END': 'blockEndVistor'
+};
+
+Compiler.prototype.getData = function (path, data, defaultValue) {
+    return op.get(data, path);
+};
+
+Compiler.prototype.compile = function (ast, data) {
+    const c = this;
     return ast.reduce(function (all, item) {
-        return all + map[item.type](item, data);
+        return all + c[c.map[item.type]](item, data);
     }, '');
-}
+};
 
-function textVistor (node) {
+Compiler.prototype.textVistor = function (node) {
     return node.value;
-}
+};
 
-function openTagVisitor (node, data) {
-    if (data[node.value]) {
-        return data[node.value];
+Compiler.prototype.openTagVisitor = function(node, data) {
+    return op.get(data, node.value, '');
+};
+
+Compiler.prototype.blockVisitor = function (node, data) {
+    const c = this;
+    c._state.push.apply(c._state, node.ctx);
+    if (helpers[node.value]) {
+        return helpers[node.value](node, data, c);
     }
+    console.log('Helper not found', node.value);
     return '';
-}
+};
 
-module.exports = compile;
+Compiler.prototype.blockEndVistor = function () {
+    const c = this;
+    c._state.pop();
+    return '';
+};
+
+module.exports = function (ast, data, opts) {
+	const c = new Compiler(opts);
+    return c.compile(ast, data);
+};
