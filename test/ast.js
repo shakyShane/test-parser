@@ -147,20 +147,52 @@ describe('Passing loc info to parser', function () {
         assert.isTrue(validateSubString('{{greeting src="shane|awwyeah" }}', input, actual[1]));
     });
     it('can pass loc info for block ends', function () {
-        const input = '{{#each}}shane\nwas here {{this.info|md}} {{/each}}';
+        const input = '{{#each}}shane{{info}}Here\'s\n andother line{{/each}}';
         const actual = parser.parse(input).body;
-        console.log(actual);
 
-        //assert.isTrue(validateSubString('{{#each}}', input, actual[0]));
-        //assert.isTrue(validateSubString('shane\nwas here ', input, actual[1]));
-        //assert.isTrue(validateSubString('{{this.info|md}}', input, actual[2]));
-        //assert.isTrue(validateSubString(' ', input, actual[3]));
-        //assert.isTrue(validateSubString('{{/each}}', input, actual[4]));
+        //console.log(actual[0]);
+        assert.equal(
+            input.substring(actual[0].loc.openTag.end, actual[0].loc.closeTag.start),
+            'shane{{info}}Here\'s\n andother line'
+        );
+        assert.equal(
+            input.substring(actual[0].loc.start, actual[0].loc.end),
+            '{{#each}}shane{{info}}Here\'s\n andother line{{/each}}'
+        );
+        assert.equal(
+            input.substring(actual[0].body[0].loc.start, actual[0].body[0].loc.end),
+            'shane'
+        );
+        assert.equal(
+            input.substring(actual[0].body[1].loc.start, actual[0].body[1].loc.end),
+            '{{info}}'
+        );
+    });
+    it('can pass loc info for blocks with params', function () {
+        const input = '{{#each this.kittie src="oh fuck"}}{{.}}{{/each}}';
+        const actual = parser.parse(input).body;
 
-        //assert.equal(actual[0].value, 'each');
-        //assert.equal(actual[1].value, 'shane\nwas here ');
-        //assert.equal(actual[2].value, 'this.info|md');
-        //assert.equal(actual[3].value, ' ');
-        //assert.equal(actual[4].value, 'each');
+        assert.equal(
+            input.substring(actual[0].loc.openTag.end, actual[0].loc.closeTag.start),
+            '{{.}}'
+        );
+        assert.equal(
+            input.substring(actual[0].loc.start, actual[0].loc.end),
+            input
+        );
+    });
+    it('can pass loc info for blocks with params and pipes', function () {
+
+        const input = '{{#each this.kittie src="oh fuck"}}{{.|md hl=js}}{{/each}}';
+        const actual = parser.parse(input).body;
+
+        assert.equal(
+            input.substring(actual[0].loc.openTag.end, actual[0].loc.closeTag.start),
+            '{{.|md hl=js}}'
+        );
+        assert.equal(
+            input.substring(actual[0].loc.closeTag.start, actual[0].loc.closeTag.end),
+            '{{/each}}'
+        );
     });
 });

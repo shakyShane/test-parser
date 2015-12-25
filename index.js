@@ -58,7 +58,11 @@ function parse (string) {
                     ctx:   [],
                     loc: {
                         start: loc.startIndex - 2,
-                        end: loc.endIndex + 2
+                        end: loc.endIndex + 2,
+                        openTag: {
+                            start: loc.startIndex - 2
+                        },
+                        closeTag: {}
                     },
                     body:  []
                 };
@@ -82,11 +86,13 @@ function parse (string) {
             if (isBlock) {
                 tagStack.push(element);
             }
-
         },
         onopentagend: function (loc) {
+            //console.log(lastAdded.value);
             if (lastAdded && lastAdded.type === 'TAG') {
                 lastAdded.loc.end = loc.endIndex + 2;
+            } else {
+                lastAdded.loc.openTag.end = loc.endIndex + 2;
             }
         },
         onclosetag: function (name, loc) {
@@ -94,7 +100,9 @@ function parse (string) {
             var elem = tagStack.pop();
             var block = blockStack.pop();
 
-            //console.log('popping', elem.value);
+            if (block.type === 'BLOCK') {
+                block.loc.closeTag = {start: loc.startIndex - 3, end: loc.endIndex + 2};
+            }
 
             if (name === block.value) {
                 block.loc.end = loc.endIndex + 2;
