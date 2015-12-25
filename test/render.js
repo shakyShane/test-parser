@@ -15,11 +15,29 @@ describe('render', function () {
             }
         }), 'hello world!');
     });
-    it('can render each blocks with array', function () {
-        const ast = parser.parse("{{#each names}}{{.}}{{/each}}");
+    it('can render deeply nested vars', function () {
+        const ast = parser.parse("hello {{a.b.c.0.a.b.c}}!");
         assert.equal(compile(ast.body, {
-            names: ['shane', '-', 'sally']
-        }), 'shane-sally');
+            a: {
+                b: {
+                    c: [{
+                        a: {
+                            b: {
+                                c: 'shane'
+                            }
+                        }
+                    }]
+                }
+            }
+        }), 'hello shane!');
+    });
+    it('can render each blocks with array', function () {
+        const ast = parser.parse("{{#each names}}{{this sep=oh}}{{/each}}");
+        const out = compile(ast.body, {
+            names: ['shane', 'sally']
+        });
+        //console.log('OUTPUT', out);
+        assert.equal(out, 'shanesally');
     });
     it('can return empty string not found', function () {
         const ast = parser.parse("{{#each names}}{{.}}{{/each}}");

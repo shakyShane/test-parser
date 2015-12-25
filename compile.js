@@ -1,18 +1,25 @@
 const op           = require('object-path');
 const objectAssign = require('object-assign');
+
 const defaults = {
     debug: false
 };
+
 const helpers = {
-    'each': function (node, data, c) {
-        var data = c.getData(c._state, data);
-        if (Array.isArray(data)) {
-            return data.reduce((a, x) => a + x, '');
+    'each': function (node, ctx, data, c) {
+
+        var cuCtx = ctx.concat(node.ctx);
+        var d     = c.getValueFromData(cuCtx);
+
+        if (Array.isArray(d)) {
+            return d.reduce((a, x, i) => {
+                return a + c.process(node.body, cuCtx.concat(i));
+            }, '');
         }
 
-        if (data === undefined) {
+        if (d === undefined) {
             if (c.opts.debug) {
-                return `Warning: \`${c._state.join('.')}\` not found.`;
+                return `Warning: \`${cuCtx.join('.')}\` not found.`;
             }
             return '';
         }
@@ -21,7 +28,8 @@ const helpers = {
 
 function Compiler (opts) {
     this._state = [];
-    this.opts = objectAssign({}, defaults, opts || {});
+    this._ctx   = [];
+    this.opts   = objectAssign({}, defaults, opts || {});
 }
 
 Compiler.prototype.map = {
@@ -31,30 +39,43 @@ Compiler.prototype.map = {
     'BLOCK_END': 'blockEndVistor'
 };
 
-Compiler.prototype.getData = function (path, data, defaultValue) {
-    return op.get(data, path);
+Compiler.prototype.compile = function (ast, data, ctx) {
+    const c = this;
+    c._data = data;
+    if (ctx) {
+        c._ctx = ctx;
+    }
+    return c.process(ast, c._ctx);
 };
 
-Compiler.prototype.compile = function (ast, data) {
-    const c = this;
-    return ast.reduce(function (all, item) {
-        return all + c[c.map[item.type]](item, data);
+Compiler.prototype.process = function (ast, ctx) {
+    var c = this;
+    return ast.reduce(function (all, node) {
+        return all + c[c.map[node.type]](node, ctx, c._data);
     }, '');
+};
+
+Compiler.prototype.getValueFromData = function (ctx, defaultValue) {
+    return op.get(this._data, ctx, defaultValue);
 };
 
 Compiler.prototype.textVistor = function (node) {
     return node.value;
 };
 
-Compiler.prototype.openTagVisitor = function(node, data) {
-    return op.get(data, node.value, '');
+Compiler.prototype.openTagVisitor = function(node, ctx, data) {
+    //console.log(op.get(data, ctx, ''));
+    if (node.value.match(/^(this|\.)/)) {
+        return op.get(data, ctx, '');
+    }
+
+    return op.get(data, ctx.concat(node.value.split('.')), '');
 };
 
 Compiler.prototype.blockVisitor = function (node, data) {
     const c = this;
-    c._state.push.apply(c._state, node.ctx);
     if (helpers[node.value]) {
-        return helpers[node.value](node, data, c);
+        return helpers[node.value](node, c._ctx, c._data, c);
     }
     console.log('Helper not found', node.value);
     return '';
