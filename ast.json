@@ -1,0 +1,22 @@
+[
+  {
+    "type": "TEXT",
+    "value": "here ",
+    "loc": {
+      "start": 0,
+      "end": 5
+    }
+  },
+  {
+    "type": "TAG",
+    "value": ".",
+    "attrs": {
+      "this": "ohno"
+    },
+    "loc": {
+      "start": 5,
+      "end": 20
+    },
+    "body": []
+  }
+]
