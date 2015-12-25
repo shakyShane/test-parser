@@ -1,4 +1,4 @@
-const op          = require('object-path');
+const op           = require('object-path');
 const objectAssign = require('object-assign');
 const defaults = {
     debug: false

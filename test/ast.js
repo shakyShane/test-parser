@@ -48,6 +48,40 @@ describe('parsing', function () {
         assert.equal(actual[1].attrs.log,   '');
         assert.equal(actual[1].attrs.debug, '');
     });
+    it('can parse nested blocks (depth 1)', function () {
+        const actual = parser.parse('{{#each posts}}before{{.}}after{{/each}}').body;
+
+        assert.equal(actual[0].type, 'BLOCK');
+        assert.equal(actual[0].body[0].type, 'TEXT');
+        assert.equal(actual[0].body[0].value, 'before');
+
+        assert.equal(actual[0].body[1].type, 'TAG');
+        assert.equal(actual[0].body[1].value, '.');
+
+        assert.equal(actual[0].body[2].type, 'TEXT');
+        assert.equal(actual[0].body[2].value, 'after');
+    });
+    it.only('can parse nested blocks (depth 2)', function () {
+        const actual = parser.parse('{{#each posts}}{{#shane this.tags}}{{.}}{{/shane}}{{/each}}').body;
+
+        console.log(actual);
+        assert.equal(actual[0].type,                 'BLOCK');
+        assert.equal(actual[0].body[0].type,         'BLOCK');
+        assert.equal(actual[0].body[0].body[0].type, 'TAG');
+
+
+        //assert.equal(actual[0].body[0].body[0], 'TAG');
+
+        //assert.equal(actual[0].type, 'BLOCK');
+        //assert.equal(actual[0].body[0].type, 'TEXT');
+        //assert.equal(actual[0].body[0].value, 'before');
+        //
+        //assert.equal(actual[0].body[1].type, 'TAG');
+        //assert.equal(actual[0].body[1].value, '.');
+        //
+        //assert.equal(actual[0].body[2].type, 'TEXT');
+        //assert.equal(actual[0].body[2].value, 'after');
+    });
 });
 
 describe('Passing loc info to parser', function () {
