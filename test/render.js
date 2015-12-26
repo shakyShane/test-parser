@@ -38,6 +38,27 @@ describe('render', function () {
         });
         assert.equal(out, 'shanesally');
     });
+    it('can render each blocks with object', function () {
+        const ast = parser.parse("{{#each names}}{{this}}{{/each}}");
+        const out = compile(ast.body, {
+            names: {
+                first: 'Shane',
+                last: 'Osbourne'
+            }
+        });
+        assert.equal(out, 'ShaneOsbourne');
+    });
+    it('can render each blocks with siblings', function () {
+        const ast = parser.parse("{{#each names}}{{this}}{{/each}}{{#each pets}}{{this}}{{/each}}");
+        const out = compile(ast.body, {
+            names: {
+                first: 'Shane',
+                last: 'Osbourne'
+            },
+            pets: ['dog', 'cat']
+        });
+        assert.equal(out, 'ShaneOsbournedogcat');
+    });
     it('can return empty string not found', function () {
         const ast = parser.parse("{{#each names}}{{.}}{{/each}}");
         assert.equal(compile(ast.body, {
@@ -59,4 +80,18 @@ describe('render', function () {
             }
         }), 'Shane Osbourne-Sally Osbourne');
     });
+    it('can use nested helper blocks', function () {
+        const ast = parser.parse("{{#each names}}{{#each first}}>{{.}}<{{/each}}{{/each}}");
+        assert.equal(compile(ast.body, {
+            names: [
+                {
+                    first: ['shane alan']
+                },
+                {
+                    first: ['sally anne']
+                }
+            ]
+        }), '>shane alan<>sally anne<');
+    });
 });
+

@@ -1,4 +1,5 @@
-var htmlparser = require("./tokenizer");
+var htmlparser = require("./lib/tokenizer");
+var compiler = require("./lib/compile");
 var cache = {};
 //var fs = require('fs');
 //var hb = require('handlebars');
@@ -139,3 +140,6 @@ function parse (string) {
 }
 
 module.exports.parse = parse;
+module.exports.compile = function compile (string, data, opts) {
+    return compiler(parse(string).body, data, opts);
+};

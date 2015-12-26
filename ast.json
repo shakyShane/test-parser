@@ -1,22 +1,81 @@
-[
-  {
-    "type": "TEXT",
-    "value": "here ",
-    "loc": {
-      "start": 0,
-      "end": 5
+{
+  "subject": "{{#each names}}{{#each first}}>{{.}}<{{/each}}{{/each}}",
+  "body": [
+    {
+      "type": "BLOCK",
+      "blockType": "#",
+      "value": "each",
+      "attrs": {
+        "names": ""
+      },
+      "ctx": [
+        "names"
+      ],
+      "loc": {
+        "start": 0,
+        "end": 55,
+        "openTag": {
+          "start": 0,
+          "end": 15
+        },
+        "closeTag": {
+          "start": 46,
+          "end": 55
+        }
+      },
+      "body": [
+        {
+          "type": "BLOCK",
+          "blockType": "#",
+          "value": "each",
+          "attrs": {
+            "first": ""
+          },
+          "ctx": [
+            "first"
+          ],
+          "loc": {
+            "start": 15,
+            "end": 46,
+            "openTag": {
+              "start": 15,
+              "end": 30
+            },
+            "closeTag": {
+              "start": 37,
+              "end": 46
+            }
+          },
+          "body": [
+            {
+              "type": "TEXT",
+              "value": ">",
+              "loc": {
+                "start": 30,
+                "end": 31
+              }
+            },
+            {
+              "type": "TAG",
+              "value": ".",
+              "attrs": {},
+              "loc": {
+                "start": 31,
+                "end": 36
+              },
+              "body": []
+            },
+            {
+              "type": "TEXT",
+              "value": "<",
+              "loc": {
+                "start": 36,
+                "end": 37
+              }
+            }
+          ]
+        }
+      ]
     }
-  },
-  {
-    "type": "TAG",
-    "value": ".",
-    "attrs": {
-      "this": "ohno"
-    },
-    "loc": {
-      "start": 5,
-      "end": 20
-    },
-    "body": []
-  }
-]
+  ]
+}
