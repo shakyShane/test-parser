@@ -115,5 +115,20 @@ describe('render', function () {
         assert.include(output, '<h1>Post 3</h1>\n');
         assert.include(output, '\nJavascript\nNodejs');
     });
+    it('can always access root ctx via $', function () {
+        const input  = "{{#each posts}}{{$.site.title}}\n{{this.title}}{{/each}}";
+        const output = compile(input, {
+            site: {
+                title: 'My blog'
+            },
+            posts: [
+                {
+                    title: 'Post 1',
+                    tags: ['Javascript', 'Nodejs']
+                }
+            ]
+        }, {debug: true});
+        assert.include(output, 'My blog\nPost 1');
+    });
 });
 
