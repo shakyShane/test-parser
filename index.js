@@ -1,17 +1,6 @@
 var htmlparser = require("./lib/tokenizer");
 var compiler = require("./lib/compile");
 var cache = {};
-//var fs = require('fs');
-//var hb = require('handlebars');
-//var string = fs.readFileSync('test.html', 'utf8');
-
-//console.log('');
-//console.timeEnd('buf');
-
-//console.time('hb');
-//hb.compile(string)({});
-//console.timeEnd('hb');
-
 
 function parse (string) {
     if (cache[string]) {

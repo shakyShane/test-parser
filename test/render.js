@@ -1,23 +1,22 @@
-var assert = require('chai').assert;
-var parser = require('../index');
-var compile = require('../compile');
+const assert  = require('chai').assert;
+const compile = require('../index').compile;
 
 describe('render', function () {
     it('can render var', function () {
-        const ast = parser.parse("hello {{greeting}}");
-        assert.equal(compile(ast.body, {greeting: 'world!'}), 'hello world!');
+        const input = "hello {{greeting}}";
+        assert.equal(compile(input, {greeting: 'world!'}), 'hello world!');
     });
     it('can render nested var', function () {
-        const ast = parser.parse("hello {{greetings.eng}}");
-        assert.equal(compile(ast.body, {
+        const input = "hello {{greetings.eng}}";
+        assert.equal(compile(input, {
             greetings: {
                 eng: 'world!'
             }
         }), 'hello world!');
     });
     it('can render deeply nested vars', function () {
-        const ast = parser.parse("hello {{a.b.c.0.a.b.c}}!");
-        assert.equal(compile(ast.body, {
+        const input = "hello {{a.b.c.0.a.b.c}}!";
+        assert.equal(compile(input, {
             a: {
                 b: {
                     c: [{
@@ -32,15 +31,15 @@ describe('render', function () {
         }), 'hello shane!');
     });
     it('can render each blocks with array', function () {
-        const ast = parser.parse("{{#each names}}{{this sep=oh}}{{/each}}");
-        const out = compile(ast.body, {
+        const input = "{{#each names}}{{this sep=oh}}{{/each}}";
+        const out = compile(input, {
             names: ['shane', 'sally']
         });
         assert.equal(out, 'shanesally');
     });
     it('can render each blocks with object', function () {
-        const ast = parser.parse("{{#each names}}{{this}}{{/each}}");
-        const out = compile(ast.body, {
+        const input = "{{#each names}}{{this}}{{/each}}";
+        const out = compile(input, {
             names: {
                 first: 'Shane',
                 last: 'Osbourne'
@@ -49,8 +48,8 @@ describe('render', function () {
         assert.equal(out, 'ShaneOsbourne');
     });
     it('can render each blocks with siblings', function () {
-        const ast = parser.parse("{{#each names}}{{this}}{{/each}}{{#each pets}}{{this}}{{/each}}");
-        const out = compile(ast.body, {
+        const input = "{{#each names}}{{this}}{{/each}}{{#each pets}}{{this}}{{/each}}";
+        const out = compile(input, {
             names: {
                 first: 'Shane',
                 last: 'Osbourne'
@@ -60,20 +59,20 @@ describe('render', function () {
         assert.equal(out, 'ShaneOsbournedogcat');
     });
     it('can return empty string not found', function () {
-        const ast = parser.parse("{{#each names}}{{.}}{{/each}}");
-        assert.equal(compile(ast.body, {
+        const input = "{{#each names}}{{.}}{{/each}}";
+        assert.equal(compile(input, {
             namez: ['shane', '-', 'sally']
         }), '');
     });
     it('can place error message inline if data not found', function () {
-        const ast = parser.parse("{{#each names}}{{.}}{{/each}}");
-        assert.equal(compile(ast.body, {
+        const input = "{{#each names}}{{.}}{{/each}}";
+        assert.equal(compile(input, {
             namez: ['shane', '-', 'sally']
         }, {debug: true}), 'Warning: `names` not found.');
     });
     it('can use context blocks', function () {
-        const ast = parser.parse("{{@names}}{{shane}}-{{sally}}{{/names}}");
-        assert.equal(compile(ast.body, {
+        const input = "{{@names}}{{shane}}-{{sally}}{{/names}}";
+        assert.equal(compile(input, {
             names: {
                 shane: 'Shane Osbourne',
                 sally: 'Sally Osbourne'
@@ -81,8 +80,8 @@ describe('render', function () {
         }), 'Shane Osbourne-Sally Osbourne');
     });
     it('can use nested helper blocks', function () {
-        const ast = parser.parse("{{#each names}}{{#each first}}>{{.}}<{{/each}}{{/each}}");
-        assert.equal(compile(ast.body, {
+        const input = "{{#each names}}{{#each first}}>{{.}}<{{/each}}{{/each}}";
+        assert.equal(compile(input, {
             names: [
                 {
                     first: ['shane alan']
@@ -92,6 +91,29 @@ describe('render', function () {
                 }
             ]
         }), '>shane alan<>sally anne<');
+    });
+    it('can use nested helper blocks with `this`', function () {
+        const input  = "{{#each posts}}\n<h1>{{this.title}}</h1>\n{{#each this.tags}}\n{{.}}{{/each}}\n{{/each}}";
+        const output = compile(input, {
+            posts: [
+                {
+                    title: 'Post 1',
+                    tags: ['Javascript', 'Nodejs']
+                },
+                {
+                    title: 'Post 2',
+                    tags: ['Javascript', 'Nodejs']
+                },
+                {
+                    title: 'Post 3',
+                    tags: ['Javascript', 'Nodejs']
+                }
+            ]
+        }, {debug: true});
+        assert.include(output, '<h1>Post 1</h1>\n');
+        assert.include(output, '<h1>Post 2</h1>\n');
+        assert.include(output, '<h1>Post 3</h1>\n');
+        assert.include(output, '\nJavascript\nNodejs');
     });
 });
 
