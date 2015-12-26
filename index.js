@@ -1,4 +1,5 @@
 var htmlparser = require("./tokenizer");
+var cache = {};
 //var fs = require('fs');
 //var hb = require('handlebars');
 //var string = fs.readFileSync('test.html', 'utf8');
@@ -12,24 +13,24 @@ var htmlparser = require("./tokenizer");
 
 
 function parse (string) {
+    if (cache[string]) {
+        return {
+            subject: string,
+            body: cache[string]
+        }
+    }
     var stack      = [];
     var tagStack   = [];
     var blockStack = [];
-    var ctx;
-    var upcoming;
     var nextattr;
-    var depth = 0;
     var current;
     var lastAdded;
 
     function addElement(element) {
-        //console.log(element.value);
         var parent   = tagStack[tagStack.length - 1];
-        //console.log(parent);
         var siblings = parent ? parent.body : stack;
         siblings.push(element);
         lastAdded = element;
-        //console.log(stack);
     }
 
     htmlparser.parse(string, {
@@ -53,6 +54,7 @@ function parse (string) {
             if (isBlock) {
                 element = {
                     type: 'BLOCK',
+                    blockType: name[0],
                     value: name.slice(1),
                     attrs: {},
                     ctx:   [],
@@ -127,6 +129,9 @@ function parse (string) {
             current.attrs[nextattr] = value;
         }
     });
+
+    cache[string] = stack;
+
     return {
         subject: string,
         body: stack

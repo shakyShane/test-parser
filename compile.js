@@ -1,29 +1,9 @@
 const op           = require('object-path');
 const objectAssign = require('object-assign');
-
-const defaults = {
+const helpers      = require('./helpers');
+const ctxBlock     = require('./ctx-block');
+const defaults     = {
     debug: false
-};
-
-const helpers = {
-    'each': function (node, ctx, data, c) {
-
-        var cuCtx = ctx.concat(node.ctx);
-        var d     = c.getValueFromData(cuCtx);
-
-        if (Array.isArray(d)) {
-            return d.reduce((a, x, i) => {
-                return a + c.process(node.body, cuCtx.concat(i));
-            }, '');
-        }
-
-        if (d === undefined) {
-            if (c.opts.debug) {
-                return `Warning: \`${cuCtx.join('.')}\` not found.`;
-            }
-            return '';
-        }
-    }
 };
 
 function Compiler (opts) {
@@ -64,7 +44,6 @@ Compiler.prototype.textVistor = function (node) {
 };
 
 Compiler.prototype.openTagVisitor = function(node, ctx, data) {
-    //console.log(op.get(data, ctx, ''));
     if (node.value.match(/^(this|\.)/)) {
         return op.get(data, ctx, '');
     }
@@ -74,8 +53,13 @@ Compiler.prototype.openTagVisitor = function(node, ctx, data) {
 
 Compiler.prototype.blockVisitor = function (node, data) {
     const c = this;
-    if (helpers[node.value]) {
-        return helpers[node.value](node, c._ctx, c._data, c);
+    if (node.blockType === '#') {
+        if (helpers[node.value]) {
+            return helpers[node.value](node, c._ctx, c._data, c);
+        }
+    }
+    if (node.blockType === '@') {
+        return ctxBlock(node, c._ctx, c._data, c);
     }
     console.log('Helper not found', node.value);
     return '';

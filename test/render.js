@@ -36,7 +36,6 @@ describe('render', function () {
         const out = compile(ast.body, {
             names: ['shane', 'sally']
         });
-        //console.log('OUTPUT', out);
         assert.equal(out, 'shanesally');
     });
     it('can return empty string not found', function () {
@@ -50,5 +49,14 @@ describe('render', function () {
         assert.equal(compile(ast.body, {
             namez: ['shane', '-', 'sally']
         }, {debug: true}), 'Warning: `names` not found.');
+    });
+    it('can use context blocks', function () {
+        const ast = parser.parse("{{@names}}{{shane}}-{{sally}}{{/names}}");
+        assert.equal(compile(ast.body, {
+            names: {
+                shane: 'Shane Osbourne',
+                sally: 'Sally Osbourne'
+            }
+        }), 'Shane Osbourne-Sally Osbourne');
     });
 });

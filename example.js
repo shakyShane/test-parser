@@ -12,8 +12,8 @@ hb.compile(string)({});
 console.timeEnd('hb');
 
 console.time('shane');
-var ast = com(htmlparser.parse(string).body, {});
-console.log(ast);
+var output = com(htmlparser.parse(string).body, {});
+//console.log(ast);
 //fs.writeFileSync('ast2.json', JSON.stringify(ast, null, 2));
 console.timeEnd('shane');
 //module.exports.parse = parse;
