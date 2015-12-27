@@ -1510,12 +1510,7 @@
 
 <h4>Et quidem, inquit, vehementer errat;</h4>
 
-<p>Quid ad utilitatem tantae pecuniae? Sed haec omittamus; Eademne, quae     {{#each posts}}
-                                                                                 {{this.title}}
-                                                                                 {{#each this.tags}}{{.}} {{/each}}
-                                                                             {{/each}}
-
-                                                                             restincta siti? Sint ista Graecorum; Sumenda potius quam expetenda. Restinguet citius, si ardentem acceperit. Reguli reiciendam; </p>
+<p>Quid ad utilitatem tantae pecuniae? Sed haec omittamus; Eademne, quae restincta siti? Sint ista Graecorum; Sumenda potius quam expetenda. Restinguet citius, si ardentem acceperit. Reguli reiciendam; </p>
 
 <h2>Quare hoc videndum est, possitne nobis hoc ratio philosophorum dare.</h2>
 

@@ -7,7 +7,7 @@ var files = [
     'bench/large-empty.txt',
     'bench/simple-loop.html',
     'bench/nested-loops.html'
-].map(x => fs.readFileSync(x, 'utf8'));
+].map(x => ({name: x, content: fs.readFileSync(x, 'utf8')}));
 
 var timesEach = 10;
 
@@ -31,10 +31,10 @@ var data = {
 
 console.time('hb');
 
-files.forEach(function (string) {
+files.forEach(function (item) {
     //var bef = mt.now();
     for (var i = 0; i < timesEach; i++) {
-        runhb(string, data);
+        runhb(item.content, data);
     }
 });
 
@@ -42,10 +42,10 @@ console.timeEnd('hb');
 
 console.time('cb');
 
-files.forEach(function (string) {
+files.forEach(function (item) {
     //var bef = mt.now();
     for (var i = 0; i < timesEach; i++) {
-        runcb(string, data);
+        runcb(item.content, data);
     }
 });
 

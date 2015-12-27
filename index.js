@@ -1,17 +1,11 @@
 var htmlparser = require("./lib/tokenizer");
 var compiler = require("./lib/compile");
-var cache = {};
 
 function parse (string) {
-    if (cache[string]) {
-        return {
-            subject: string,
-            body: cache[string]
-        }
-    }
-    var stack      = [];
-    var tagStack   = [];
-    var blockStack = [];
+    const stack      = [];
+    const tagStack   = [];
+    const blockStack = [];
+
     var nextattr;
     var current;
     var lastAdded;
@@ -25,7 +19,6 @@ function parse (string) {
 
     htmlparser.parse(string, {
         ontext: function (text, loc) {
-
             addElement({
                 type: 'TEXT',
                 value: text,
@@ -52,6 +45,7 @@ function parse (string) {
                         start: loc.startIndex - 2,
                         end: loc.endIndex + 2,
                         openTag: {
+                            line: loc.line,
                             start: loc.startIndex - 2
                         },
                         closeTag: {}
@@ -65,8 +59,9 @@ function parse (string) {
                     value: name,
                     attrs: {},
                     loc: {
+                        line:  loc.line,
                         start: loc.startIndex - 2,
-                        end: loc.endIndex + 2
+                        end:   loc.endIndex + 2
                     },
                     body: []
                 };
@@ -81,10 +76,16 @@ function parse (string) {
         },
         onopentagend: function (loc) {
             //console.log(lastAdded.value);
-            if (lastAdded && lastAdded.type === 'TAG') {
+            if (!lastAdded) return;
+
+            if (lastAdded.type === 'TAG') {
                 lastAdded.loc.end = loc.endIndex + 2;
-            } else {
+            }
+            if (lastAdded.type === 'BLOCK') {
                 lastAdded.loc.openTag.end = loc.endIndex + 2;
+                var size = lastAdded.loc.openTag.end - lastAdded.loc.openTag.start;
+                lastAdded.loc.openTag.columnStart = (loc.column - size);
+                lastAdded.loc.openTag.columnEnd = (lastAdded.loc.openTag.columnStart + size - 1); // todo: remove this 1?
             }
         },
         onclosetag: function (name, loc) {
@@ -93,7 +94,15 @@ function parse (string) {
             var block = blockStack.pop();
 
             if (block.type === 'BLOCK') {
-                block.loc.closeTag = {start: loc.startIndex - 3, end: loc.endIndex + 2};
+
+                block.loc.closeTag = {
+                    line: loc.line,
+                    start: loc.startIndex - 3,
+                    end: loc.endIndex + 2
+                };
+                var size = block.loc.closeTag.end - block.loc.closeTag.start;
+                block.loc.closeTag.columnStart = (loc.column) - size;
+                block.loc.closeTag.columnEnd = block.loc.closeTag.columnStart + size - 1;
             }
 
             if (name === block.value) {
@@ -102,9 +111,6 @@ function parse (string) {
         },
         onselfclosingtag: function () {
 
-        },
-        onnewline: function (loc) {
-            console.log('nl', loc);
         },
         onattribname: function (nae) {
             if (!current) return;
@@ -123,7 +129,7 @@ function parse (string) {
         }
     });
 
-    cache[string] = stack;
+    //cache[string] = stack;
 
     return {
         subject: string,

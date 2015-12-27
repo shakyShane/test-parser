@@ -95,28 +95,22 @@ describe('Passing loc info to parser', function () {
         const input = 'hey';
         const actual = parser.parse(input).body;
 
-        assert.deepEqual(actual[0], {
-            type:  'TEXT',
-            value: 'hey',
-            loc: {
-                start: 0,
-                end: 3
-            }
-        });
+        assert.equal(actual[0].type, 'TEXT');
+        assert.equal(actual[0].value, 'hey');
+        assert.equal(actual[0].loc.start, 0);
+        assert.equal(actual[0].loc.end, 3);
     });
     it('can pass loc info with string + var', function () {
         const input = 'hey {{greeting}}';
         const actual = parser.parse(input).body;
 
-        assert.deepEqual(actual[0], {
-            type:  'TEXT',
-            value: 'hey ',
-            loc: {
-                start: 0,
-                end: 4
-            }
-        });
+        assert.equal(actual[0].type, 'TEXT');
+        assert.equal(actual[0].value, 'hey ');
+        assert.equal(actual[0].loc.start, 0);
+        assert.equal(actual[0].loc.end, 4);
+
         assert.deepEqual(actual[1].loc, {
+            line: 1,
             start: 4,
             end: 16
         });
@@ -128,6 +122,7 @@ describe('Passing loc info to parser', function () {
         const actual = parser.parse(input).body;
 
         assert.deepEqual(actual[1].loc, {
+            line: 1,
             start: 4,
             end: 18
         });
@@ -141,7 +136,11 @@ describe('Passing loc info to parser', function () {
         const input = 'hey {{greeting src="shane|awwyeah" }}';
         const actual = parser.parse(input).body;
 
-        assert.deepEqual(actual[1].loc, { start: 4, end: 37 });
+        assert.deepEqual(actual[1].loc, {
+            line: 1,
+            start: 4,
+            end: 37
+        });
         assert.deepEqual(actual[1].attrs.src, 'shane|awwyeah');
 
         assert.isTrue(validateSubString('{{greeting src="shane|awwyeah" }}', input, actual[1]));
@@ -194,9 +193,21 @@ describe('Passing loc info to parser', function () {
             '{{/each}}'
         );
     });
-    it.only('can pass info about newlines', function () {
-        const input = 'shane\nosbourne';
-        //const actual = parser.parse(input).body;
-        //console.log(actual);
+    it('can pass info about newlines with vars', function () {
+        const input = 'shane\nosbourne {{var1}}';
+        const actual = parser.parse(input);
+        assert.equal(actual.body[0].type, 'TEXT');
+        assert.equal(actual.body[0].value, 'shane\nosbourne ');
+        assert.equal(actual.body[1].type, 'TAG');
+        assert.equal(actual.body[1].loc.line, 2);
+    });
+    it('can pass info about newlines with blocks', function () {
+        const input = '{{#each posts}}{{.}}{{/each}}';
+        const actual = parser.parse(input);
+
+        assert.equal(actual.body[0].loc.openTag.columnStart, 0);
+        assert.equal(actual.body[0].loc.openTag.columnEnd, 14);
+        assert.equal(actual.body[0].loc.closeTag.columnStart, 20);
+        assert.equal(actual.body[0].loc.closeTag.columnEnd, 28);
     });
 });
