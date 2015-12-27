@@ -130,5 +130,25 @@ describe('render', function () {
         }, {debug: true});
         assert.include(output, 'My blog\nPost 1');
     });
+    it.only('strips lines that only include tags/block openers/closes', function () {
+    	const input = `<ul>
+    {{#each tags}}
+        <li>{{this}}</li>
+    {{/each}}
+</ul>`;
+
+        //console.log(split.splice(1, 1));
+        //console.log(split.splice(2, 1));
+        //console.log([split[1]]);
+        //console.log(split.join('\n'));
+        //const output = compile(input, {
+        //    tags: ['JS', 'NODE']
+        //});
+        //console.log('     '.match(/\s/));
+        //console.log(output);
+        console.log(require('handlebars').compile(input)({
+            tags: ['JS', 'NODE']
+        }));
+    });
 });
 
