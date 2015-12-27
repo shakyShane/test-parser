@@ -103,6 +103,9 @@ function parse (string) {
         onselfclosingtag: function () {
 
         },
+        onnewline: function (loc) {
+            console.log('nl', loc);
+        },
         onattribname: function (nae) {
             if (!current) return;
             if (current.type === 'BLOCK') {

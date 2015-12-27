@@ -150,7 +150,6 @@ describe('Passing loc info to parser', function () {
         const input = '{{#each}}shane{{info}}Here\'s\n andother line{{/each}}';
         const actual = parser.parse(input).body;
 
-        //console.log(actual[0]);
         assert.equal(
             input.substring(actual[0].loc.openTag.end, actual[0].loc.closeTag.start),
             'shane{{info}}Here\'s\n andother line'
@@ -194,5 +193,10 @@ describe('Passing loc info to parser', function () {
             input.substring(actual[0].loc.closeTag.start, actual[0].loc.closeTag.end),
             '{{/each}}'
         );
+    });
+    it.only('can pass info about newlines', function () {
+        const input = 'shane\nosbourne';
+        //const actual = parser.parse(input).body;
+        //console.log(actual);
     });
 });
