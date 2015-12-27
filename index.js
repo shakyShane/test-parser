@@ -139,5 +139,5 @@ function parse (string) {
 
 module.exports.parse = parse;
 module.exports.compile = function compile (string, data, opts) {
-    return compiler(parse(string).body, data, opts);
+    return compiler(parse(string), data, opts);
 };
