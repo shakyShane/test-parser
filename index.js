@@ -18,7 +18,8 @@ function parse (string) {
     }
 
     htmlparser.parse(string, {
-        ontext: function (text, loc) {
+        ontext: function (text, loc, stripleft) {
+            //console.log(text, stripleft);
             addElement({
                 type: 'TEXT',
                 value: text,
