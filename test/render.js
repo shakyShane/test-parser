@@ -137,19 +137,22 @@ describe('render', function () {
     {{/each}}
 </ul>`;
 
-        //console.log(split.splice(1, 1));
+        //console.log(split);
+        //console.log(split.splice(1, 1, '<--io-->'));
         //console.log(split.splice(2, 1));
+        console.log('----');
+        //console.log(split.join('\n'));
         //console.log([split[1]]);
         //console.log(split.join('\n'));
         const output = compile(input, {
             tags: ['JS', 'NODE']
-        });
+        }, {ws: true});
         //console.log('     '.match(/\s/));
-        //console.log(output);
+        console.log(output);
 
-        console.log(require('handlebars').compile(input)({
-            tags: ['JS', 'NODE']
-        }));
+        //console.log(require('handlebars').compile(input)({
+        //    tags: ['JS', 'NODE']
+        //}));
     });
 });
 

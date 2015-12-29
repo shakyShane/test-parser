@@ -1,10 +1,12 @@
 var htmlparser = require("./lib/tokenizer");
 var compiler = require("./lib/compile");
 
-function parse (string) {
+function parse (string, data, opts) {
     const stack      = [];
     const tagStack   = [];
     const blockStack = [];
+    opts = opts || {};
+
 
     var nextattr;
     var current;
@@ -128,7 +130,7 @@ function parse (string) {
             if (!current) return;
             current.attrs[nextattr] = value;
         }
-    });
+    }, opts);
 
     //cache[string] = stack;
 
@@ -140,5 +142,23 @@ function parse (string) {
 
 module.exports.parse = parse;
 module.exports.compile = function compile (string, data, opts) {
-    return compiler(parse(string), data, opts);
+
+    opts = opts || {};
+
+    if (opts.ws) {
+
+        var split = string.split(/\n|\r/g);
+        var flags = [];
+
+        var out = split.forEach(function (item, i) {
+            if (item.match(/^(\s+)?\{\{(.+)(}})(\s+|$)/)) {
+                flags.push(i + 1);
+            }
+        });
+        opts.skipLines = flags;
+    } else {
+        opts.skipLines = [];
+    }
+
+    return compiler(parse(string, data, opts), data, opts);
 };

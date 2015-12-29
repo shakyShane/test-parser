@@ -45,7 +45,9 @@ console.time('cb');
 files.forEach(function (item) {
     //var bef = mt.now();
     for (var i = 0; i < timesEach; i++) {
-        runcb(item.content, data);
+        runcb(item.content, data, {ws:true});
+        //runcb(item.content, data);
+        //runcb(item.content, data);
     }
 });
 
@@ -55,6 +57,6 @@ function runhb (string, data) {
     hb.compile(string)(data);
 }
 
-function runcb (string, data) {
-    cb.compile(string, data);
+function runcb (string, data, opts) {
+    cb.compile(string, data, opts);
 }
