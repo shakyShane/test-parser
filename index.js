@@ -1,5 +1,8 @@
-var htmlparser = require("./lib/tokenizer");
-var compiler = require("./lib/compile");
+const htmlparser = require("./lib/tokenizer");
+const compiler = require("./lib/compile");
+const TextNode = require("./lib/TextNode");
+const BlockNode = require("./lib/BlockNode");
+const TagNode = require("./lib/TagNode");
 
 function parse (string) {
     const stack      = [];
@@ -19,17 +22,16 @@ function parse (string) {
 
     htmlparser.parse(string, {
         ontext: function (text, loc) {
-            addElement({
+            addElement(new TextNode({
                 type: 'TEXT',
                 value: text,
                 loc: {
                     start: loc.startIndex,
                     end: loc.endIndex
                 }
-            });
+            }, string));
         },
         onopentagname: function (name, loc) {
-
 
             var isBlock = name.match(/^[#@-]/);
             var element;
@@ -68,7 +70,12 @@ function parse (string) {
             }
 
             current = element;
-            addElement(element);
+
+            if (element.type === 'BLOCK') {
+                addElement(new BlockNode(element, string));
+            } else {
+                addElement(new TagNode(element, string));
+            }
 
             if (isBlock) {
                 tagStack.push(element);

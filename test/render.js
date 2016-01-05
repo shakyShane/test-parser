@@ -2,7 +2,7 @@ const assert  = require('chai').assert;
 const compile = require('../index').compile;
 
 describe('render', function () {
-    it('can render var', function () {
+    it.only('can render var', function () {
         const input = "hello {{greeting}}";
         assert.equal(compile(input, {greeting: 'world!'}), 'hello world!');
     });
@@ -130,7 +130,8 @@ describe('render', function () {
         }, {debug: true});
         assert.include(output, 'My blog\nPost 1');
     });
-    it.only('strips lines that only include tags/block openers/closes', function () {
+
+    it.skip('strips lines that only include tags/block openers/closes', function () {
     	const input = `<ul>
     {{#each tags}}
         <li>{{this}}</li>
