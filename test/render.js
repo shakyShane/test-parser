@@ -2,7 +2,7 @@ const assert  = require('chai').assert;
 const compile = require('../index').compile;
 
 describe('render', function () {
-    it.only('can render var', function () {
+    it('can render var', function () {
         const input = "hello {{greeting}}";
         assert.equal(compile(input, {greeting: 'world!'}), 'hello world!');
     });

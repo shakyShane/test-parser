@@ -18,6 +18,10 @@ function parse (string) {
         var siblings = parent ? parent.body : stack;
         siblings.push(element);
         lastAdded = element;
+
+        if (element.type === 'BLOCK') {
+            tagStack.push(element);
+        }
     }
 
     htmlparser.parse(string, {
@@ -75,10 +79,6 @@ function parse (string) {
                 addElement(new BlockNode(element, string));
             } else {
                 addElement(new TagNode(element, string));
-            }
-
-            if (isBlock) {
-                tagStack.push(element);
             }
         },
         onopentagend: function (loc) {
