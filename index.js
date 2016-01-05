@@ -46,6 +46,7 @@ function parse (string) {
                     blockType: name[0],
                     value: name.slice(1),
                     attrs: {},
+                    hash: {},
                     ctx:   [],
                     loc: {
                         start: loc.startIndex - 2,
@@ -64,6 +65,7 @@ function parse (string) {
                     type:  'TAG',
                     value: name,
                     attrs: {},
+                    hash: {},
                     loc: {
                         line:  loc.line,
                         start: loc.startIndex - 2,
@@ -121,11 +123,11 @@ function parse (string) {
         },
         onattribname: function (nae) {
             if (!current) return;
-            if (current.type === 'BLOCK') {
+            if (current.type === 'BLOCK' && !current.ctx.length) {
                 current.ctx.push(nae);
             }
             nextattr = nae;
-            current.attrs[nae] = '';
+            current.attrs[nae] = undefined;
         },
         onattribend: function () {
 
@@ -133,6 +135,13 @@ function parse (string) {
         onattribdata: function (value) {
             if (!current) return;
             current.attrs[nextattr] = value;
+        },
+        onattribdataUnquoted: function (value) {
+            if (!current) return;
+            if (current.attrs[nextattr] !== undefined) {
+                delete current.attrs[nextattr];
+            }
+            current.hash[nextattr] = value;
         }
     });
 

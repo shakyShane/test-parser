@@ -8,19 +8,19 @@
 <ul>
     {{#each posts}}
     {{this.title}}
-        {{#each this.tags}}{{.}} {{/each}}
+        {{#each this.tags sep=here}}{{.}} {{/each}}
     {{/each}}
 </ul>
 <ul>
     {{#each posts}}
     {{this.title}}
-        {{#each this.tags}}{{.}} {{/each}}
+        {{#each this.tags sep="here"}}{{.}} {{/each}}
     {{/each}}
 </ul>
 <ul>
     {{#each posts}}
     {{this.title}}
-        {{#each this.tags}}{{.}} {{/each}}
+        {{#each this.tags sep="here" andther=omse}}{{.}} {{/each}}
     {{/each}}
 </ul>
 </body>

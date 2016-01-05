@@ -46,8 +46,8 @@ describe('parsing', function () {
         assert.equal(actual[1].type,      'TAG');
         assert.equal(actual[1].value,     'user.name');
         assert.equal(actual[1].attrs.src,   'as');
-        assert.equal(actual[1].attrs.log,   '');
-        assert.equal(actual[1].attrs.debug, '');
+        assert.equal(actual[1].attrs.log,   undefined);
+        assert.equal(actual[1].attrs.debug, undefined);
     });
     it('can parse nested blocks (depth 1)', function () {
         const actual = parser.parse('{{#each posts}}before{{.}}after{{/each}}last').body;
@@ -67,7 +67,7 @@ describe('parsing', function () {
 
     });
     it('can parse nested blocks (depth 2)', function () {
-        const actual = parser.parse('{{#each posts}}{{#shane this.tags}}{{. filter=md}}{{/shane}}{{/each}}').body;
+        const actual = parser.parse('{{#each posts}}{{#shane this.tags}}{{. filter="md"}}{{/shane}}{{/each}}').body;
 
         assert.equal(actual[0].type,                 'BLOCK');
         assert.equal(actual[0].body[0].type,         'BLOCK');
