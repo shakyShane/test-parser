@@ -1,7 +1,9 @@
 <body>
     <ul>
     {{#each pages}}
-        <li>{{this.url}}</li>
+        <li>
+            <a href="{{this.url}}" title="{{$.site.title}}">{{this.title}} {{this.name}}</a>
+        </li>
     {{/each}}
     </ul>
 </body>
