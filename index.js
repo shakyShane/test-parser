@@ -16,6 +16,7 @@ function parse (string) {
     function addElement(element) {
         var parent   = tagStack[tagStack.length - 1];
         var siblings = parent ? parent.body : stack;
+
         siblings.push(element);
         lastAdded = element;
 
@@ -25,6 +26,9 @@ function parse (string) {
     }
 
     htmlparser.parse(string, {
+        onEnd: function () {
+
+        },
         onError: function (type, loc) {
             lastAdded.error = {
                 type, loc
@@ -53,6 +57,7 @@ function parse (string) {
                     attrs: {},
                     hash:  {},
                     ctx:   [],
+                    closed: false,
                     loc: {
                         start: loc.startIndex - 2,
                         end: loc.endIndex + 2,
@@ -108,7 +113,6 @@ function parse (string) {
             var block = blockStack.pop();
 
             if (block.type === 'BLOCK') {
-
                 block.loc.closeTag = {
                     line: loc.line,
                     start: loc.startIndex - 3,
@@ -117,6 +121,9 @@ function parse (string) {
                 var size = block.loc.closeTag.end - block.loc.closeTag.start;
                 block.loc.closeTag.columnStart = (loc.column) - size;
                 block.loc.closeTag.columnEnd = block.loc.closeTag.columnStart + size - 1;
+
+                // indicate that this tag was closed correctly
+                elem.closed = true;
             }
 
             if (name === block.value) {

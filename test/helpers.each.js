@@ -120,7 +120,7 @@ describe('#each block helper', function () {
 
         assert.equal(output, '1\n2');
     });
-    it.only('can handle syntax errors when tag is not closed', function () {
+    it('can handle syntax errors when tag is not closed', function () {
         const input = "{{#each nums {{someother}}}} {{/each}}"
         const output = compile(input, {
             nums: [1, 2],
@@ -128,7 +128,14 @@ describe('#each block helper', function () {
                 separator: '\n'
             }
         }, {debug: true});
+        assert.include(output, 'Syntax Error:');
+    });
+    it('can handle syntax errors when end tag is not closed from a block', function () {
+        const input = "{{#each nums}}{{.}}some other stuff";
+        const output = compile(input, {
+            nums: [1, 2]
+        }, {debug: true});
 
-        //assert.equal(actual.body[0].error.type, 'DOUBLE_OPEN');
+        assert.include(output, '`each` Tag not closed correctly');
     });
 });

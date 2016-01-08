@@ -210,14 +210,14 @@ describe('Passing loc info to parser', function () {
         assert.equal(actual.body[0].loc.closeTag.columnStart, 20);
         assert.equal(actual.body[0].loc.closeTag.columnEnd, 28);
     });
-    it('can handle syntax errors when open tag is not closed', function () {
+    it('can handle syntax errors when opening tag is not closed', function () {
         const input = '{{#each posts}shane {{shane.}}{{/each}}';
         const actual = parser.parse(input);
         assert.equal(actual.body[0].error.type, 'NOT_CLOSED');
     });
-    it('can handle syntax errors when tag is not closed', function () {
-        const input = '{{#each postsshane {{shane.}}{{/each}}';
+    it('can handle syntax errors when end tag is not present', function () {
+        const input = '{{#each postsshane {{shane.}}';
         const actual = parser.parse(input);
-        assert.equal(actual.body[0].error.type, 'DOUBLE_OPEN');
+        assert.equal(actual.body[0].closed, false);
     });
 });
