@@ -1,10 +1,6 @@
 var assert = require('chai').assert;
 var compile = require('../index').compile;
 
-function validateSubString(string, subject, node) {
-    return string === subject.substring(node.loc.start, node.loc.end);
-}
-
 describe('#each block helper', function () {
     it('can render each blocks with array', function () {
         const input = "{{#each names}}{{this sep=oh}}{{/each}}";
@@ -121,6 +117,18 @@ describe('#each block helper', function () {
                 separator: '\n'
             }
         }, {debug: true});
+
         assert.equal(output, '1\n2');
+    });
+    it.only('can handle syntax errors when tag is not closed', function () {
+        const input = "{{#each nums {{someother}}}} {{/each}}"
+        const output = compile(input, {
+            nums: [1, 2],
+            site: {
+                separator: '\n'
+            }
+        }, {debug: true});
+
+        //assert.equal(actual.body[0].error.type, 'DOUBLE_OPEN');
     });
 });

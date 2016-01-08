@@ -25,6 +25,11 @@ function parse (string) {
     }
 
     htmlparser.parse(string, {
+        onError: function (type, loc) {
+            lastAdded.error = {
+                type, loc
+            };
+        },
         ontext: function (text, loc) {
             addElement(new TextNode({
                 type: 'TEXT',
@@ -46,7 +51,7 @@ function parse (string) {
                     blockType: name[0],
                     value: name.slice(1),
                     attrs: {},
-                    hash: {},
+                    hash:  {},
                     ctx:   [],
                     loc: {
                         start: loc.startIndex - 2,
