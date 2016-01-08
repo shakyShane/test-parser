@@ -220,4 +220,10 @@ describe('Passing loc info to parser', function () {
         const actual = parser.parse(input);
         assert.equal(actual.body[0].closed, false);
     });
+    it.only('can parse filters', function () {
+        const input = '{{nums|lodash.get:"shane.\|kittie"}}';
+        const actual = parser.parse(input);
+        console.log(actual.body);
+        //assert.equal(actual.body[0].closed, false);
+    });
 });
