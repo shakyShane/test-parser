@@ -3,7 +3,7 @@ var f = require('fs');
 
 var output = f.readFileSync('test/fixtures/loop.html', 'utf8');
 
-console.log('input->\n' + output);
+//console.log('input->\n' + output);
 
 console.log('output->\n' + c.compile(output, {
     site: {

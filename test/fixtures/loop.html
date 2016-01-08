@@ -1,9 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{site.title}}</title>
+</head>
 <body>
+    <h1>Pages</h1>
     <ul>
-    {{#each pages}}
+        {{#each posts}}
         <li>
-            <a href="{{this.url}}" title="{{$.site.title}}">{{this.title}} {{this.name}}</a>
+            <a href="{{url}}" title="{{$.site.title}}">{{title}}</a>
         </li>
-    {{/each}}
+        {{/each}}
+    </ul>
+    <h2>Meet our Leaders</h2>
+    <ul>
+        {{$.staff|json}}
+        {{#each $.staff.leaders}}
+        <li>
+            <a href="" title="{{$.site.title}}">{{name}}</a>
+            <ul>
+                {{#each $.staff.members}}
+                <li><a href="" title="{{$.site.title}}">{{name}}</a></li>
+                {{/each}}
+            </ul>
+        </li>
+        {{/each}}
     </ul>
 </body>
+</html>

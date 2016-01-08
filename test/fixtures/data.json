@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Browsersync.io"
+  },
+  "posts": [
+    {
+      "title": "Home",
+      "url": "/"
+    },
+    {
+      "title": "About",
+      "url": "/about"
+    }
+  ],
+  "staff": {
+    "leaders": [
+      {
+        "name": "ian"
+      },
+      {
+        "name": "Jamie"
+      }
+    ],
+    "members": [
+      {
+        "name": "shane"
+      },
+      {
+        "name": "Leo"
+      }
+    ]
+  }
+}
